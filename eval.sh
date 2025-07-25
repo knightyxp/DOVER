@@ -1,0 +1,1 @@
+python evaluate_one_video.py -v /projects/D2DCRC/xiangpeng/Senorita/obj_removal_videos_vie_top1k/0031_source_56c038c2094339dec3c58c8d27234cfb_org.mp4 -f

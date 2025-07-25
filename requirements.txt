@@ -1,5 +1,3 @@
-torch~=1.13
-torchvision
 opencv-python
 decord
 matplotlib
