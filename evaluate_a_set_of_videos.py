@@ -15,7 +15,7 @@ from dover.datasets import (
     spatial_temporal_view_decomposition,
 )
 from dover.models import DOVER
-
+from torch.nn import DataParallel
 mean, std = (
     torch.FloatTensor([123.675, 116.28, 103.53]),
     torch.FloatTensor([58.395, 57.12, 57.375]),
