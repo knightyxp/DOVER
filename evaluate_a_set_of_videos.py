@@ -15,7 +15,6 @@ from dover.datasets import (
     spatial_temporal_view_decomposition,
 )
 from dover.models import DOVER
-from torch.nn import DataParallel
 mean, std = (
     torch.FloatTensor([123.675, 116.28, 103.53]),
     torch.FloatTensor([58.395, 57.12, 57.375]),
@@ -69,16 +68,10 @@ if __name__ == "__main__":
         opt = yaml.safe_load(f)
 
     ### Load DOVER
-    # evaluator = DOVER(**opt["model"]["args"]).to(args.device)
-    # evaluator.load_state_dict(
-    #     torch.load(opt["test_load_path"], map_location=args.device)
-    # )
     evaluator = DOVER(**opt["model"]["args"]).to(args.device)
     evaluator.load_state_dict(
         torch.load(opt["test_load_path"], map_location=args.device)
     )
-    # ↓ 新增这一行，把模型并到多卡上
-    evaluator = DataParallel(evaluator, device_ids=[0,1,2,3])
 
     video_paths = []
     all_results = {}
