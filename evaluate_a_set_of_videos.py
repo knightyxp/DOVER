@@ -69,10 +69,16 @@ if __name__ == "__main__":
         opt = yaml.safe_load(f)
 
     ### Load DOVER
+    # evaluator = DOVER(**opt["model"]["args"]).to(args.device)
+    # evaluator.load_state_dict(
+    #     torch.load(opt["test_load_path"], map_location=args.device)
+    # )
     evaluator = DOVER(**opt["model"]["args"]).to(args.device)
     evaluator.load_state_dict(
         torch.load(opt["test_load_path"], map_location=args.device)
     )
+    # ↓ 新增这一行，把模型并到多卡上
+    evaluator = DataParallel(evaluator, device_ids=[0,1,2,3])
 
     video_paths = []
     all_results = {}
@@ -88,7 +94,7 @@ if __name__ == "__main__":
     dataset = ViewDecompositionDataset(dopt)
 
     dataloader = torch.utils.data.DataLoader(
-        dataset, batch_size=1, num_workers=opt["num_workers"], pin_memory=True,
+        dataset, batch_size=4, num_workers=opt["num_workers"], pin_memory=True,
     )
 
     try:
